@@ -1,37 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../models/cat.dart'; // Импортируем модель Cat
 
 class CatDetailScreen extends StatelessWidget {
-  final Map<String, dynamic> cat;
+  final Cat cat; // Используем модель Cat вместо Map
 
-  const CatDetailScreen({required this.cat});
+  const CatDetailScreen({super.key, required this.cat});
 
   @override
   Widget build(BuildContext context) {
-    final breed = cat['breeds'][0];
     return Scaffold(
-      appBar: AppBar(title: Text(breed['name'])),
-      body: SingleChildScrollView(
+      appBar: AppBar(
+        title: Text(cat.breedName), // Название породы в заголовке
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            // Изображение котика
             CachedNetworkImage(
-              imageUrl: cat['url'],
+              imageUrl: cat.imageUrl,
+              height: 250,
               fit: BoxFit.cover,
-              height: MediaQuery.of(context).size.height * 0.4,
+              width: double.infinity,
+              placeholder: (context, url) => const CircularProgressIndicator(),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Порода: ${breed['name']}', style: TextStyle(fontSize: 20)),
-                  SizedBox(height: 10),
-                  Text('Описание: ${breed['description']}'),
-                  SizedBox(height: 10),
-                  Text('Характер: ${breed['temperament']}'),
-                ],
+            const SizedBox(height: 20),
+
+            // Название породы
+            Text(
+              "Порода: ${cat.breedName}",
+              style: const TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
               ),
             ),
+            const SizedBox(height: 10),
           ],
         ),
       ),

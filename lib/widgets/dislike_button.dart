@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class LikeButton extends StatelessWidget {
+class DislikeButton extends StatelessWidget {
   final VoidCallback onPressed;
 
-  const LikeButton({super.key, required this.onPressed});
+  const DislikeButton({super.key, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(Icons.favorite, size: 40),
-      color: Colors.red,
+      icon: const Icon(Icons.close, size: 40),
+      color: Colors.grey,
       onPressed: onPressed,
     );
   }
