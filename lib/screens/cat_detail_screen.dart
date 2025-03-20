@@ -1,42 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import '../models/cat.dart'; // Импортируем модель Cat
 
-class CatDetailScreen extends StatelessWidget {
-  final Cat cat; // Используем модель Cat вместо Map
+class DetailScreen extends StatelessWidget {
+  final String imageUrl;
+  final String breedName;
+  final String breedDescription;
 
-  const CatDetailScreen({super.key, required this.cat});
+  const DetailScreen({
+    Key? key,
+    required this.imageUrl,
+    required this.breedName,
+    required this.breedDescription,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(cat.breedName), // Название породы в заголовке
+        title: Text(breedName),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Изображение котика
-            CachedNetworkImage(
-              imageUrl: cat.imageUrl,
-              height: 250,
-              fit: BoxFit.cover,
+            Image.network(
+              imageUrl,
+              height: 300,
               width: double.infinity,
-              placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
+              fit: BoxFit.cover,
             ),
-            const SizedBox(height: 20),
-
-            // Название породы
+            const SizedBox(height: 16),
             Text(
-              "Порода: ${cat.breedName}",
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
+              breedName,
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 8),
+            Text(
+              breedDescription,
+              style: const TextStyle(fontSize: 16),
+            ),
           ],
         ),
       ),

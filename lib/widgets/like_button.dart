@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 class LikeButton extends StatelessWidget {
   final VoidCallback onPressed;
 
-  const LikeButton({super.key, required this.onPressed});
+  const LikeButton({Key? key, required this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.favorite, size: 40),
-      color: Colors.red,
+    return ElevatedButton.icon(
       onPressed: onPressed,
+      icon: const Icon(Icons.thumb_up, color: Colors.white),
+      label: const Text('Лайк'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.green,
+      ),
     );
   }
 }

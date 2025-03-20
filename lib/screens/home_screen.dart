@@ -1,153 +1,124 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart'; // Для кэширования изображений
-import '../models/cat.dart'; // Модель котика
-import '../services/cat_api.dart'; // Сервис для работы с API
-import '../widgets/like_button.dart'; // Виджет кнопки лайка
-import '../widgets/dislike_button.dart'; // Виджет кнопки дизлайка
-import 'cat_detail_screen.dart'; // Экран с деталями
+import '../services/cat_api.dart';
+import '../widgets/like_button.dart';
+import '../widgets/dislike_button.dart';
+import '../widgets/cat_icon.dart';
+import 'cat_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  HomeScreenState createState() => HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> {
-  Cat? _currentCat; // Текущий котик
-  int _likeCount = 0; // Счетчик лайков
-  bool _isLoading = false; // Флаг загрузки
-
-  // Загрузка нового котика
-  Future<void> _fetchCat() async {
-    setState(() {
-      _isLoading = true;
-    });
-
-    try {
-      final cat = await ApiService.fetchCat();
-      if (cat != null) {
-        setState(() {
-          _currentCat = cat;
-        });
-      }
-    } catch (e) {
-      // Обработка ошибок (можно добавить логирование)
-      debugPrint('Ошибка при загрузке котика: $e');
-    } finally {
-      setState(() {
-        _isLoading = false;
-      });
-    }
-  }
-
-  // Обработка лайка
-  void _handleLike() {
-    setState(() {
-      _likeCount++;
-    });
-    _fetchCat();
-  }
-
-  // Обработка дизлайка
-  void _handleDislike() {
-    _fetchCat();
-  }
+class _HomeScreenState extends State<HomeScreen> {
+  String? imageUrl;
+  String breedName = '';
+  String breedDescription = '';
+  int likeCount = 0;
+  bool isLoading = false;
 
   @override
   void initState() {
     super.initState();
-    _fetchCat(); // Загружаем первого котика при инициализации
+    fetchCat();
+  }
+
+  Future<void> fetchCat() async {
+    setState(() => isLoading = true);
+    final catData = await CatApi.fetchCatData();
+    if (catData != null) {
+      setState(() {
+        imageUrl = catData.imageUrl;
+        breedName = catData.breedName;
+        breedDescription = catData.breedDescription;
+      });
+    }
+    setState(() => isLoading = false);
+  }
+
+  void onLike(bool liked) {
+    if (liked) {
+      setState(() => likeCount++);
+    }
+    fetchCat();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Кототиндер"),
-        leading: const Icon(Icons.pets), // Иконка котика
+        title: const Row(
+          children: [
+            CatIcon(),
+            SizedBox(width: 8),
+            Text('cat_tinder'),
+          ],
+        ),
       ),
-      body: _isLoading || _currentCat == null
-          ? const Center(
-              child: CircularProgressIndicator()) // Индикатор загрузки
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Счетчик лайков
-                Text(
-                  "Лайков: $_likeCount",
-                  style: const TextStyle(fontSize: 20),
-                ),
-                const SizedBox(height: 20),
-
-                // Карточка котика
-                Expanded(
-                  child: Center(
-                    child: Dismissible(
-                      key: Key(_currentCat!.imageUrl), // Уникальный ключ
-                      direction:
-                          DismissDirection.horizontal, // Свайп по горизонтали
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : imageUrl == null
+              ? const Center(child: Text('Нет данных'))
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Dismissible(
+                      key: UniqueKey(),
+                      direction: DismissDirection.horizontal,
                       onDismissed: (direction) {
-                        if (direction == DismissDirection.startToEnd) {
-                          _handleLike(); // Свайп вправо — лайк
-                        } else if (direction == DismissDirection.endToStart) {
-                          _handleDislike(); // Свайп влево — дизлайк
-                        }
+                        final liked = direction == DismissDirection.startToEnd;
+                        onLike(liked);
                       },
                       child: GestureDetector(
                         onTap: () {
-                          // Переход на экран с деталями
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  CatDetailScreen(cat: _currentCat!),
+                              builder: (_) => DetailScreen(
+                                imageUrl: imageUrl!,
+                                breedName: breedName,
+                                breedDescription: breedDescription,
+                              ),
                             ),
                           );
                         },
-                        child: CachedNetworkImage(
-                          imageUrl: _currentCat!.imageUrl,
-                          fit: BoxFit.cover,
-                          height: 300,
-                          width: double.infinity,
-                          placeholder: (context, url) => const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                          errorWidget: (context, url, error) => const Center(
-                            child: Icon(Icons.error, color: Colors.red),
-                          ),
+                        child: Column(
+                          children: [
+                            Image.network(
+                              imageUrl!,
+                              height: 300,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              breedName,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
-                // Кнопки лайка и дизлайка
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    DislikeButton(onPressed: _handleDislike),
-                    const SizedBox(width: 20),
-                    LikeButton(onPressed: _handleLike),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        DislikeButton(onPressed: () => onLike(false)),
+                        LikeButton(onPressed: () => onLike(true)),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      'Лайков: $likeCount',
+                      style: const TextStyle(fontSize: 18),
+                    ),
                   ],
                 ),
-
-                const SizedBox(height: 20),
-
-                // Название породы
-                Text(
-                  _currentCat!.breedName,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-              ],
-            ),
     );
   }
 }
