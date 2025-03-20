@@ -4,9 +4,8 @@
 Кототиндер — это мобильное приложение на Flutter, которое позволяет пользователям просматривать случайные изображения котиков и ставить им лайки или дизлайки. При свайпе или нажатии на кнопки происходит загрузка нового котика. Также есть возможность открыть детальный экран с дополнительной информацией о породе.
 
 ## Скриншоты
-![example_1](https://github.com/user-attachments/assets/photo_2025-03-20_22-03-56.jpg)
-![example_2](https://github.com/user-attachments/assets/photo_2025-03-20_22-03-11.jpg)
 
+/Users/matveitulin/Documents/Flutter/cat_tinder/assets/photo_2025-03-20_22-03-11.jpg
 ## Реализованные фичи
 - На главном экране отображается случайное изображение котика и название его породы.
 - Картинку можно свайпнуть влево или вправо.
@@ -23,7 +22,9 @@
 1. Скачайте и установите Flutter SDK.
 2. Клонируйте репозиторий:
    ```bash
-   git clone https://github.com/m-tln/cat_tinder ./cat_tinder
+  ![photo_2025-03-20_22-03-56] (https://github.com/user-attachments/assets/9b1e1671-1adc-4757-9eb1-674cea111b2b)
+![photo_2025-03-20_22-03-11](https://github.com/user-attachments/assets/41cf9a36-210c-4c0d-a4f5-fab1fdd90d6f)
+
    ```
 3. Перейдите в папку проекта:
    ```bash
