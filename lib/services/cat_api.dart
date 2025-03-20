@@ -20,7 +20,8 @@ class CatApi {
       final response = await http.get(
         Uri.parse('https://api.thecatapi.com/v1/images/search?has_breeds=1'),
         headers: {
-          'x-api-key': 'live_JbuH8dvofieAnngzk6sej35EExSxX2WPkOt4oBwq0Qeo9IeKYHDsxJnoXaECdUXJ',
+          'x-api-key':
+              'live_JbuH8dvofieAnngzk6sej35EExSxX2WPkOt4oBwq0Qeo9IeKYHDsxJnoXaECdUXJ',
         },
       );
 
@@ -47,4 +48,3 @@ class CatApi {
     return null;
   }
 }
-

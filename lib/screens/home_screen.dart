@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import '../services/cat_api.dart';
-import '../widgets/like_button.dart';
-import '../widgets/dislike_button.dart';
-import '../widgets/cat_icon.dart';
-import 'cat_detail_screen.dart';
+import 'package:cat_tinder/services/cat_api.dart';
+import 'package:cat_tinder/widgets/like_button.dart';
+import 'package:cat_tinder/widgets/dislike_button.dart';
+import 'package:cat_tinder/widgets/cat_icon.dart';
+import 'package:cat_tinder/screens/cat_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

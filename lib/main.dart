@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart';
+import 'package:cat_tinder/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
