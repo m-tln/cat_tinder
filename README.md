@@ -39,7 +39,7 @@
    ```
 
 ## Скачать APK
-![Скачать] (https://github.com/m-tln/cat_tinder/releases/app-realese.apk)
+![Скачать] (https://github.com/m-tln/cat_tinder/releases/tag/v1.0.0)
 ## Технологии
 - **Flutter** — для разработки UI.
 - **Dart** — основной язык программирования.
