@@ -4,9 +4,14 @@
 Кототиндер — это мобильное приложение на Flutter, которое позволяет пользователям просматривать случайные изображения котиков и ставить им лайки или дизлайки. При свайпе или нажатии на кнопки происходит загрузка нового котика. Также есть возможность открыть детальный экран с дополнительной информацией о породе.
 
 ## Скриншоты
-![example_1](https://github.com/user-attachments/assets/photo_2025-03-20_22-03-56.jpg)
-![example_2](https://github.com/user-attachments/assets/photo_2025-03-20_22-03-11.jpg)
-
+![photo_2025-03-20_22-02-56](https://github.com/user-attachments/assets/481fe8ca-5841-47b9-bea0-c8e6c8d9849f)
+![photo_2025-03-20_22-03-11](https://github.com/user-attachments/assets/a4cb00a5-0274-44b4-9e74-0971aac5ab74)
+/Users/matveitulin/Documents/Flutter/cat_tinder/assets/photo_2025-03-20_22-03-11.jpg
+![delete](assets/delete.jpg)
+![list](assets/list.jpg)
+![loading](assets/loading.jpg)
+![error1](assets/error1.jpg)
+![error2](assets/error2.jpg)
 ## Реализованные фичи
 - На главном экране отображается случайное изображение котика и название его породы.
 - Картинку можно свайпнуть влево или вправо.
@@ -18,12 +23,18 @@
   - Использован пакет `http` для запроса к API `https://thecatapi.com`.
 - Кастомная иконка для приложения.
 - Код отформатирован с помощью `dart format`, подключен `flutter_lint`.
+- Обработка ошибок сети с диалогом.
+- При длительной загрузке приложение показывает progress bar.
+- Экран списка лайкнутых котиков (хранится в рантайме):
+  - Отображение изображения, породы и даты лайка
+  - Удаление котика из списка (свап в лево строки)
+  - Фильтрация по породе с мгновенным обновлением
 
 ## Установка и запуск
 1. Скачайте и установите Flutter SDK.
 2. Клонируйте репозиторий:
    ```bash
-   git clone https://github.com/m-tln/cat_tinder ./cat_tinder
+   git clone https://github.com/m-tln/cat_tinder
    ```
 3. Перейдите в папку проекта:
    ```bash
@@ -39,11 +50,10 @@
    ```
 
 ## Скачать APK
-![Скачать] (https://github.com/m-tln/cat_tinder/releases/app-realese.apk)
+![Скачать](https://github.com/m-tln/cat_tinder/releases/tag/v1.0.0)
 ## Технологии
 - **Flutter** — для разработки UI.
 - **Dart** — основной язык программирования.
 - **Navigator** — для переходов между экранами.
 - **http** — для работы с API.
 - **Image.network** — для загрузки картинок из интернета.
-
